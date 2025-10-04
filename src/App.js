@@ -72,6 +72,7 @@ function Game() {
     const [userInput, setUserInput] = useState("");
     const [timeLeft, setTimeLeft] = useState(60);
     const timerRef = useRef(null);
+    const inputRef = useRef(null);
     const [message, setMessage] = useState("")
 
     const nextWord = async () => {
@@ -86,6 +87,13 @@ function Game() {
         controller.setWord(newWord);
         setUserInput("");
         setTimeLeft(10);
+        
+        // Refocus input after clearing
+        setTimeout(() => {
+            if (inputRef.current) {
+                inputRef.current.focus();
+            }
+        }, 0);
     };
 
     useEffect(() => {
@@ -123,11 +131,13 @@ function Game() {
             </div>
             <div className="input-group">
                 <input
+                    ref={inputRef}
                     type="text"
                     value={userInput}
                     onChange={(e) => setUserInput(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
                     placeholder="Enter a rhyme..."
+                    autoFocus
                 />
                 <button onClick={handleSubmit}>Submit</button>
             </div>
@@ -188,15 +198,7 @@ export function Router() {
 
 export default function App() {
     return (
-        <div style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100vw",
-            height: "100vh",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "2rem",
-        }}>
+        <div className="app-container">
             <h1 className="title">Richard's Rumbustious Rhyming Rounds</h1>
             <Router/>
         </div>
