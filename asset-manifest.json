@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/rhyme-game/static/css/main.af354381.css",
+    "main.js": "/rhyme-game/static/js/main.b4996980.js",
+    "static/js/453.b65ca740.chunk.js": "/rhyme-game/static/js/453.b65ca740.chunk.js",
+    "index.html": "/rhyme-game/index.html",
+    "main.af354381.css.map": "/rhyme-game/static/css/main.af354381.css.map",
+    "main.b4996980.js.map": "/rhyme-game/static/js/main.b4996980.js.map",
+    "453.b65ca740.chunk.js.map": "/rhyme-game/static/js/453.b65ca740.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.af354381.css",
+    "static/js/main.b4996980.js"
+  ]
+}
