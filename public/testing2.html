@@ -1,0 +1,51 @@
+<div style="display: flex; align-items: center; justify-content: center;">
+    <span class="xx">
+            Richard's Rambactious Rhyming Rounds
+    </span>
+</div>
+
+<style>
+    .xxinner {
+        background: #0052cc;
+        color: #fff;
+        border-width: 1px 0 1px 0;
+        border-color: #ff050c;
+        border-style: solid;
+        padding: 4px;
+    }
+
+    .xx {
+        font-weight: bold;
+        font-family: Arial, sans-serif;
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        margin: 0;
+        padding: 0;
+    }
+
+    .xx::before,
+    .xx::after {
+        position: absolute;
+        display: inline-block;
+        content: '';
+        border-style: solid;
+        border-width: 1px 1px 1px 1px;
+        border-color: #dd050c;
+        width: 15px;
+        height: 15px;
+    }
+
+    .xx::before {
+        top: -5px;
+        left: 0;
+        transform: rotate(45deg) ;
+    }
+
+    .xx::after {
+        right: 0;
+        top: -5px;
+    }
+
+
+</style>
