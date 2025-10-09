@@ -34,24 +34,40 @@ const fetchWord = async () => {
 
 const rhymeCache = new Map();
 
+const normalizeWord = (word) => {
+    return word.trim().toLowerCase();
+};
+
+const isSingleWord = (word) => {
+    return !word.includes(' ') && !word.includes('-') && !word.includes('_');
+};
+
 const validateRhyme = async (input, target) => {
-    const key = target.toLowerCase();
-    if (!rhymeCache.has(key)) {
-        const res = await fetch(`https://api.datamuse.com/words?rel_rhy=${key}`);
+    const normalizedInput = normalizeWord(input);
+    const normalizedTarget = normalizeWord(target);
+    
+    if (!rhymeCache.has(normalizedTarget)) {
+        const res = await fetch(`https://api.datamuse.com/words?rel_rhy=${normalizedTarget}`);
         const rhymes = await res.json();
-        rhymeCache.set(key, new Set(rhymes.map((w) => w.word.toLowerCase())));
+        const singleWordRhymes = rhymes
+            .map((w) => w.word.toLowerCase())
+            .filter(isSingleWord);
+        rhymeCache.set(normalizedTarget, new Set(singleWordRhymes));
     }
-    return rhymeCache.get(key).has(input.toLowerCase());
+    return rhymeCache.get(normalizedTarget).has(normalizedInput);
 };
 
 const getValidRhymes = async (target) => {
-    const key = target.toLowerCase();
-    if (!rhymeCache.has(key)) {
-        const res = await fetch(`https://api.datamuse.com/words?rel_rhy=${key}`);
+    const normalizedTarget = normalizeWord(target);
+    if (!rhymeCache.has(normalizedTarget)) {
+        const res = await fetch(`https://api.datamuse.com/words?rel_rhy=${normalizedTarget}`);
         const rhymes = await res.json();
-        rhymeCache.set(key, new Set(rhymes.map((w) => w.word.toLowerCase())));
+        const singleWordRhymes = rhymes
+            .map((w) => w.word.toLowerCase())
+            .filter(isSingleWord);
+        rhymeCache.set(normalizedTarget, new Set(singleWordRhymes));
     }
-    return rhymeCache.get(key);
+    return rhymeCache.get(normalizedTarget);
 }
 
 function Intro({setGameScreen}) {
@@ -106,7 +122,7 @@ function Game() {
     }, [setMessage, controller.word, timeLeft, controller]);
 
     const handleSubmit = async () => {
-        const valid = await validateRhyme(userInput.toLowerCase(), controller.word.toLowerCase());
+        const valid = await validateRhyme(userInput, controller.word);
         if (!valid) {
             setMessage(`Not a valid rhyme: ${userInput}`)
             return;
